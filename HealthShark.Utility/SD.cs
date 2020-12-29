@@ -8,6 +8,6 @@ namespace HealthShark.Utility
     {
         public const string Role_Admin = "Role_Admin";
         public const string Role_Trainer = "Role_Trainer";
-        public const string Role_User = "Role_User";
+        public const string Role_Customer = "Role_Customer";
     }
 }
