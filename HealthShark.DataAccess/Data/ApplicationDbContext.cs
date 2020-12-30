@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using HealthShark.Models.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,10 @@ namespace HealthShark.Data
             : base(options)
         {
         }
+
+
+        public DbSet<BodyType> BodyTypes { get; set; }
+
+        public DbSet<Package> Packages { get; set; }
     }
 }

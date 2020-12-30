@@ -1,0 +1,130 @@
+﻿@model HealthShark.Models.Models.Package
+
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Create a Package";
+}
+
+
+<div class="row p-3 border">
+    <div class="col-8">
+
+
+        <form method="post">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (Model.Id != 0)
+                {
+                    title = "Edit Body Type";
+                }
+                <div class="col-12">
+                    <h2 class="text-primary">@title</h2>
+                </div>
+                <div class="col-8 pt-4">
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="Name"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="Description"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="StartDate"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="StartDate" class="form-control" />
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="EndDate"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="EndDate" class="form-control" />
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="Price"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="CouplePrice"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="CouplePrice" class="form-control" />
+                            <span asp-validation-for="CouplePrice" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ImageUrl"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="ImageUrl" type="file" class="form-control" />
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8 offset-4">
+                            @if (Model.Id != 0)
+                            {
+                                <partial name="_EditAndBackToListPage" model="@Model.Id" />
+                            }
+                            else
+                            {
+                                <partial name="_CreateAndBackToListPage" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+
+
+
+    </div>
+
+    <div class="col-4">
+        <img src=@Model.ImageUrl class="img-fluid rounded mt-4" />
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

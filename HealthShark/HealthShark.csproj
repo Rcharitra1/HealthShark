@@ -28,6 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="wwwroot\img\packages\" />
   </ItemGroup>
 </Project>
