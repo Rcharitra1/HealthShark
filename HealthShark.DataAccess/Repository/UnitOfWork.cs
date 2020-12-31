@@ -15,12 +15,15 @@ namespace HealthShark.DataAccess.Repository
         {
             _db = db;
             BodyType = new BodyTypeRepository(_db);
-            Package = new PackageRepository(_db);
+            UserPlan = new UserPlanRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
         }
 
         public IBodyTypeRepository BodyType { get; private set; }
 
-        public IPackageRepository Package { get; private set; }
+        public IUserPlanRepository UserPlan { get; private set; }
+
+        public IApplicationUserRepository ApplicationUser { get; private set; }
 
         public void Dispose()
         {

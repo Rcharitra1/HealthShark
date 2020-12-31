@@ -1,4 +1,7 @@
-﻿@{
+﻿@model List<HealthShark.Models.Models.UserPlan>
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -31,3 +34,42 @@
         </a>
     </div>
 </div>
+
+<br />
+<div class="row justify-content-center">
+    <h3 class="text-black-50 text-center text-capitalize font-weight-bold"><u>Choose from a wide varity of Plans</u></h3>
+</div>
+<br />
+<div class="container-xl">
+    <div class="row justify-content-center">
+
+        @if (Model.Count() == 0)
+        {
+            <p class="text-muted">Create/Edit plan to display here</p>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <div class="card col-md-6 col-12 col-lg-4 pt-4 m-2" >
+                    <img class="card-img" style="min-height:300px; max-height:300px" src=@item.ImageUrl alt="Card image cap">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Description.</p>
+                        <p class="card-text">Duration: @item.Duration Hrs</p>
+
+                        <p class="card-text">Price:<del> @item.Price.ToString("c")</del></p>
+
+                        <p class="card-text">Get as low as: @item.CouplePrice.ToString("c")</p>
+
+                        <a class="btn btn-primary" asp-action="Details" asp-route-Id="@item.Id">Details</a>
+                    </div>
+                </div>
+            }
+        }
+
+
+    </div>
+</div>
+
+

@@ -1,0 +1,75 @@
+﻿@model HealthShark.Models.Models.UserPlan
+
+
+
+@{
+    ViewData["Title"] = "Details Page";
+}
+
+
+
+<form method="post">
+    <input hidden asp-for="Id" />
+    <div class="container backgroundWhite">
+        <div class="card">
+            <div class="card-header bg-light text-light ml-0 row container">
+                <div class="col-12">
+                    <h1 class="text-primary">@Model.Name</h1>
+                    <span class="badge badge-success pt-2" style="height:30px;">@Model.Description</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-12 col-md-8 my-2">
+
+               
+                            <div class="row pl-2">
+                                <h5 class="text-muted pb-2">Price: <strike>@Model.Price.ToString("c")</strike></h5>
+                            </div>
+                            <div class="row text-center pl-2">
+                                <div class="p-1 col-4 bg-secondary border-bottom">
+                                    <div>Package Type</div>
+                                </div>
+                                <div class="p-1 col-4 bg-secondary border-bottom">
+                                    <div>Individual</div>
+                                </div>
+                                <div class="p-1 col-4 bg-secondary border-bottom">
+                                    <div>Couple</div>
+                                </div>
+                        
+                            </div>
+                            <div class="row text-center pl-2" style="color:grey; font-weight:bold">
+                                <div class="p-1 col-4 bg-secondary">
+                                    <div>Price</div>
+                                </div>
+                                <div class="p-1 col-4 bg-secondary">
+                               
+                                    <div>@Model.Price.ToString("c")</div>
+                                </div>
+                                <div class="p-1 col-4 bg-secondary">
+                                    <div>@Model.CouplePrice.ToString("c")</div>
+                                </div>
+               
+                            </div>
+                           
+                        </div>
+                        <div class="col-12 col-md-3 offset-lg-1 text-center">
+                            <img src="@Model.ImageUrl" width="100%" class="rounded" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-1">
+                        <a asp-action="Index" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;">Back to List</a>
+                    </div>
+                    <div class="col-12 col-md-6 pb-1">
+                        <button type="submit" value="Add to Cart" class="btn btn-primary btn-square btn-lg form-control" style="height:50px;">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

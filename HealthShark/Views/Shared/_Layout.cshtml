@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+@using HealthShark.Utility 
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,33 +33,51 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
+                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Trainer))
+                        {
 
-                        <li>
-                            <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    People
-                                </a>
+                            <li>
+                                <div class="dropdown">
+                                    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        People
+                                    </a>
 
-                                <div class="dropdown-menu bg-primary border-0" aria-labelledby="navbar-DropDown">
-                                    <a class="dropdown-item text-light" href="#">Trainer</a>
-                                    <a class="dropdown-item text-light" href="#">Customer</a>
+                                    <div class="dropdown-menu bg-primary border-0" aria-labelledby="navbar-DropDown">
+
+                                        @if (User.IsInRole(SD.Role_Admin))
+                                        {
+                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="User" asp-action="Index">Trainers/Customers/Admins</a>
+                                        }
+
+                                        @if (User.IsInRole(SD.Role_Trainer))
+                                        {
+                                            <a class="dropdown-item text-light" href="#">My Customers</a>
+                                        }
+
+
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        }
 
 
-                        <li>
-                            <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Fitness
-                                </a>
 
-                                <div class="dropdown-menu bg-primary border-0" aria-labelledby="navbar-DropDown">
-                                    <a class="dropdown-item text-light" asp-area="Admin" asp-controller="BodyType" asp-action="Index">Body Types</a>
-                                    <a class="dropdown-item text-light" asp-action="Index" asp-area="Admin" asp-controller="Package">Package</a>
+                        @if (User.IsInRole(SD.Role_Admin))
+                        {
+                            <li>
+                                <div class="dropdown">
+                                    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Fitness
+                                    </a>
+
+                                    <div class="dropdown-menu bg-primary border-0" aria-labelledby="navbar-DropDown">
+                                        <a class="dropdown-item text-light" asp-area="Admin" asp-controller="BodyType" asp-action="Index">Body Types</a>
+                                        <a class="dropdown-item text-light" asp-action="Index" asp-area="Admin" asp-controller="UserPlan">Plans</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>

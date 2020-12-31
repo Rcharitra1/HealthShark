@@ -1,4 +1,6 @@
-﻿using HealthShark.Models;
+﻿using HealthShark.DataAccess.Repository.IRepository;
+using HealthShark.Models;
+using HealthShark.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,16 +15,51 @@ namespace HealthShark.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IUnitOfWork _unitOfWork;
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<UserPlan> plans = _unitOfWork.UserPlan.GetAll();
+            List<UserPlan> activePlans= new List<UserPlan>();
+
+            foreach(var plan in plans)
+            {
+                if (plan.Active == true)
+                {
+                    activePlans.Add(plan);
+                }
+            }
+            return View(activePlans);
         }
+
+
+        public IActionResult Details(int ? id)
+        {
+            UserPlan plan = new UserPlan();
+            if(id is null)
+            {
+                return View(plan);
+            }
+
+            plan = _unitOfWork.UserPlan.Get(id.GetValueOrDefault());
+
+            if(plan is null)
+            {
+                return NotFound();
+            }
+
+            return View(plan);
+        }
+
+
+
+        
+
 
         public IActionResult Privacy()
         {

@@ -17,6 +17,12 @@ namespace HealthShark.Data
 
         public DbSet<BodyType> BodyTypes { get; set; }
 
-        public DbSet<Package> Packages { get; set; }
+
+        public DbSet<UserPlan> UserPlans { get; set; }
+
+
+        public DbSet<ApplicationUser> ApplicationUsers {get; set;}
+
+
     }
 }

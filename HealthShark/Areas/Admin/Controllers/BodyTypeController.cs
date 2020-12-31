@@ -1,6 +1,8 @@
 ﻿using HealthShark.DataAccess.Repository;
 using HealthShark.DataAccess.Repository.IRepository;
 using HealthShark.Models.Models;
+using HealthShark.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ using System.Threading.Tasks;
 namespace HealthShark.Areas.Admin
 {
     [Area("Admin")]
+
+    [Authorize(Roles=SD.Role_Admin)]
     public class BodyTypeController : Controller
     {
 

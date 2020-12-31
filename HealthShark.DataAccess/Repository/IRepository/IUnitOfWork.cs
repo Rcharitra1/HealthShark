@@ -8,7 +8,10 @@ namespace HealthShark.DataAccess.Repository.IRepository
     {
        public IBodyTypeRepository BodyType { get; }
 
-        public IPackageRepository Package { get; }
+        public IUserPlanRepository UserPlan { get; }
+
+
+        public IApplicationUserRepository ApplicationUser { get; }
         void Save();
     }
 }
