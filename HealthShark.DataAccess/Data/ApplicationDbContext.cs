@@ -1,4 +1,5 @@
 ﻿using HealthShark.Models.Models;
+using HealthShark.Models.Models.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,6 +23,15 @@ namespace HealthShark.Data
 
 
         public DbSet<ApplicationUser> ApplicationUsers {get; set;}
+
+
+        public DbSet<WorkOutType> WorkOutTypes { get; set; }
+
+        public DbSet<Diet> Diets { get; set; }
+
+
+        public DbSet<UserVM> UserVMs { get; set; }
+
 
 
     }

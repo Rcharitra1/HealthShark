@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary text-light  border-bottom box-shadow mb-3">
             <div class="container-xl">
-                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">HealthShark</a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-dumbbell"></i> &nbsp; Health Shark</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,7 +33,15 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Trainer))
+                        @if (User.IsInRole(SD.Role_Customer))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="" asp-action="">My Details</a>
+                            </li>
+                        }
+
+
+                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Trainer) || User.IsInRole(SD.Role_Dietician))
                         {
 
                             <li>
@@ -46,10 +54,10 @@
 
                                         @if (User.IsInRole(SD.Role_Admin))
                                         {
-                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="User" asp-action="Index">Trainers/Customers/Admins</a>
+                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="User" asp-action="Index">Trainers/Customers/Admins/Dieticians</a>
                                         }
 
-                                        @if (User.IsInRole(SD.Role_Trainer))
+                                        @if (User.IsInRole(SD.Role_Trainer) || User.IsInRole(SD.Role_Dietician))
                                         {
                                             <a class="dropdown-item text-light" href="#">My Customers</a>
                                         }
@@ -62,7 +70,7 @@
 
 
 
-                        @if (User.IsInRole(SD.Role_Admin))
+                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Trainer) || User.IsInRole(SD.Role_Dietician))
                         {
                             <li>
                                 <div class="dropdown">
@@ -71,8 +79,24 @@
                                     </a>
 
                                     <div class="dropdown-menu bg-primary border-0" aria-labelledby="navbar-DropDown">
-                                        <a class="dropdown-item text-light" asp-area="Admin" asp-controller="BodyType" asp-action="Index">Body Types</a>
-                                        <a class="dropdown-item text-light" asp-action="Index" asp-area="Admin" asp-controller="UserPlan">Plans</a>
+
+
+                                        @if (User.IsInRole(SD.Role_Admin))
+                                        {
+                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="BodyType" asp-action="Index">Body Types</a>
+                                            <a class="dropdown-item text-light" asp-action="Index" asp-area="Admin" asp-controller="UserPlan">Plans</a>
+                                        }
+
+
+                                        @if (User.IsInRole(SD.Role_Dietician) || User.IsInRole(SD.Role_Admin))
+                                        {
+                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="Diet" asp-action="Index">Diets</a>
+                                        }
+
+                                        @if (User.IsInRole(SD.Role_Trainer) || User.IsInRole(SD.Role_Admin))
+                                        {
+                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="WorkOutType" asp-action="Index">Work Outs</a>
+                                        }
                                     </div>
                                 </div>
                             </li>

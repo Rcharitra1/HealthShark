@@ -133,14 +133,21 @@ namespace HealthShark.Areas.Identity.Pages.Account
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
                     }
 
+
+
                     if (!await _roleManager.RoleExistsAsync(SD.Role_Customer))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer));
                     }
 
-                    if(!await _roleManager.RoleExistsAsync(SD.Role_Trainer))
+                    if (!await _roleManager.RoleExistsAsync(SD.Role_Trainer))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Trainer));
+                    }
+
+                    if (!await _roleManager.RoleExistsAsync(SD.Role_Dietician))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_Dietician));
                     }
 
 
@@ -148,16 +155,21 @@ namespace HealthShark.Areas.Identity.Pages.Account
 
 
 
-                    if (user.Role == null)
+                    if (user.Role == null || user.Role == SD.Role_Customer)
                     {
                         await _userManager.AddToRoleAsync(user, SD.Role_Customer);
                     }
                     else
                     {
+                        if (user.Role == SD.Role_Dietician)
+                        {
+                            await _userManager.AddToRoleAsync(user, SD.Role_Dietician);
+                        }
+
                         await _userManager.AddToRoleAsync(user, SD.Role_Trainer);
                     }
 
-                    RedirectToPage(returnUrl);
+                    return LocalRedirect(returnUrl);
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

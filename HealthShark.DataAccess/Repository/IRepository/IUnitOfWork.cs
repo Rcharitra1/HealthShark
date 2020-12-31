@@ -12,6 +12,11 @@ namespace HealthShark.DataAccess.Repository.IRepository
 
 
         public IApplicationUserRepository ApplicationUser { get; }
+
+        public IWorkOutTypeRepository WorkOut { get; }
+
+
+        public IDietRepository Diet { get; }
         void Save();
     }
 }

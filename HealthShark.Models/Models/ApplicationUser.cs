@@ -16,6 +16,8 @@ namespace HealthShark.Models.Models
         public string Province { get; set; }
         public string PostalCode { get; set; }
 
+
+
         
 
         [NotMapped]
