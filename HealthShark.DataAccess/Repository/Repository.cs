@@ -52,9 +52,12 @@ namespace HealthShark.DataAccess.Repository
             return query.ToList();
         }
 
+
+
         public T GetFirstOrDefualt(Expression<Func<T, bool>> filter = null, string includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+
             if (filter != null)
             {
                 query = query.Where(filter);
@@ -68,9 +71,10 @@ namespace HealthShark.DataAccess.Repository
                 }
             }
 
-            
+
             return query.FirstOrDefault();
         }
+       
 
         public void Remove(int id)
         {

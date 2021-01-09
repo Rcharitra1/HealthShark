@@ -22,5 +22,13 @@ namespace HealthShark.Models.Models
 
         [NotMapped]
         public string Role { get; set; }
+
+
+        public string Address { get 
+            {
+                return StreetAddress + ", " + City + ", " + Province + ", " + PostalCode;
+
+            }  
+        }
     }
 }

@@ -36,7 +36,7 @@
                         @if (User.IsInRole(SD.Role_Customer))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="" asp-action="">My Details</a>
+                                <a class="nav-link text-light" asp-area="Customer" asp-controller="UserVM" asp-action="Index">My Details</a>
                             </li>
                         }
 

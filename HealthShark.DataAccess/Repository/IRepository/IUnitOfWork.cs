@@ -17,6 +17,8 @@ namespace HealthShark.DataAccess.Repository.IRepository
 
 
         public IDietRepository Diet { get; }
+
+        public IUserVMRepository UserVM { get; }
         void Save();
     }
 }
