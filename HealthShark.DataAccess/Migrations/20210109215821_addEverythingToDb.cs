@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HealthShark.DataAccess.Migrations
 {
-    public partial class addeverythingToDb : Migration
+    public partial class addEverythingToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

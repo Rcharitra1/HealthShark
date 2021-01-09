@@ -131,6 +131,8 @@ namespace HealthShark.Areas.Identity.Pages.Account
                     if (!await _roleManager.RoleExistsAsync(SD.Role_Admin))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
+                  
+
                     }
 
 

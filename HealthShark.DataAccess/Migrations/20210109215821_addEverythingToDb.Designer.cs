@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthShark.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201231214259_addeverythingToDb")]
-    partial class addeverythingToDb
+    [Migration("20210109215821_addEverythingToDb")]
+    partial class addEverythingToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
