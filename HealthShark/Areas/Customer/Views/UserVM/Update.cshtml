@@ -1,0 +1,132 @@
+﻿@model HealthShark.Models.Models.ViewModels.UserVM
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-12">
+            <h2 class="text-primary">Update Details</h2>
+        </div>
+        <div class="col-8 pt-4">
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="@Model.User.Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="@Model.User.Name" class="form-control" disabled />
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="@Model.Weight"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="@Model.Weight" class="form-control" />
+                    <span asp-validation-for="@Model.Weight" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="@Model.Height"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="@Model.Height" class="form-control" />
+                    <span asp-validation-for="@Model.Height" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="@Model.Allergies"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="@Model.Allergies" class="form-control" />
+                    <span asp-validation-for="@Model.Allergies" class="text-danger"></span>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="@Model.MedicalHistory"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="@Model.MedicalHistory" class="form-control" />
+                    <span asp-validation-for="@Model.MedicalHistory" class="text-danger"></span>
+                </div>
+            </div>
+                 <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="@Model.ImageUrl"></label>
+                </div>
+                <div class="col-8">
+                    <input type="file" name="file" id="uploadBox" multiple class="form-control" />
+                    <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+       
+
+
+
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+                    <partial name="_EditAndBackToListPage" model="@Model.Id" />
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <img src=@Model.ImageUrl class="img-fluid rounded mt-4" />
+        </div>
+    </div>
+
+</form>
+
+
+
+
+ 
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+
+    <script>
+        function validateInput() {
+            if (document.querySelector('#uploadBox').value == "") {
+                swal("Error", "Please Select an image", "error");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+
+}

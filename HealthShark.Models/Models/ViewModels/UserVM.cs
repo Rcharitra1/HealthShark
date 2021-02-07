@@ -40,10 +40,10 @@ namespace HealthShark.Models.Models.ViewModels
 
         [NotMapped]
 
-        public double BMI { get 
+        public string BMI { get 
             
             {
-                return (Weight/(Height*Height))/10000;
+                return (Weight/Math.Pow((Height/100), 2)).ToString("0.00");
             }
         }
     }
