@@ -58,11 +58,11 @@
                         <p class="card-text">@item.Description.</p>
                         <p class="card-text">Duration: @item.Duration Hrs</p>
 
-                        <p class="card-text">Price:<del> @item.Price.ToString("c")</del></p>
+                        <p class="card-text">Price: @item.Price.ToString("c")</p>
 
-                        <p class="card-text">Get as low as: @item.CouplePrice.ToString("c")</p>
+                        @*<p class="card-text">Get as low as: @item.CouplePrice.ToString("c")</p>*@
 
-                        <a class="btn btn-primary" asp-action="Details" asp-route-Id="@item.Id">Details</a>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-Id="@item.Id" >Details</a>
                     </div>
                 </div>
             }

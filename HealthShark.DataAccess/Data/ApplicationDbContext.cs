@@ -32,6 +32,8 @@ namespace HealthShark.Data
 
         public DbSet<UserVM> UserVMs { get; set; }
 
+        public DbSet<UserAssignmentVM> UserAssignmentVMs { get; set; }
+
 
 
     }

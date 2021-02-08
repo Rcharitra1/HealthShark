@@ -28,7 +28,7 @@
 
                
                             <div class="row pl-2">
-                                <h5 class="text-muted pb-2">Price: <strike>@Model.Price.ToString("c")</strike></h5>
+                                <h5 class="text-muted pb-2">Price: @Model.Price.ToString("c")</h5>
                             </div>
                             <div class="row text-center pl-2">
                                 <div class="p-1 col-4 bg-secondary border-bottom">
@@ -37,9 +37,9 @@
                                 <div class="p-1 col-4 bg-secondary border-bottom">
                                     <div>Individual</div>
                                 </div>
-                                <div class="p-1 col-4 bg-secondary border-bottom">
+                                @*<div class="p-1 col-4 bg-secondary border-bottom">
                                     <div>Couple</div>
-                                </div>
+                                </div>*@
                         
                             </div>
                             <div class="row text-center pl-2" style="color:grey; font-weight:bold">
@@ -50,9 +50,9 @@
                                
                                     <div>@Model.Price.ToString("c")</div>
                                 </div>
-                                <div class="p-1 col-4 bg-secondary">
+                                @*<div class="p-1 col-4 bg-secondary">
                                     <div>@Model.CouplePrice.ToString("c")</div>
-                                </div>
+                                </div>*@
                
                             </div>
                            
@@ -69,7 +69,7 @@
                         <a asp-action="Index" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;">Back to List</a>
                     </div>
                     <div class="col-12 col-md-6 pb-1">
-                        <button type="submit" value="Add to Cart" class="btn btn-primary btn-square btn-lg form-control" style="height:50px;">Add to Cart</button>
+                        <a class="btn btn-primary btn-square btn-lg form-control" style="height:50px;" asp-action="Upsert" asp-area="Admin" asp-controller="UserAssignment" asp-route-id="@Model.Id">Add to Cart</a>
                     </div>
                 </div>
             </div>

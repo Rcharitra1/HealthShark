@@ -20,6 +20,7 @@ namespace HealthShark.DataAccess.Repository
             WorkOut = new WorkOutTypeRepository(_db);
             Diet = new DietRepository(_db);
             UserVM = new UserVMRepository(_db);
+            UserAssignmentVM = new UserAssignmentRepository(_db);
         }
 
         public IBodyTypeRepository BodyType { get; private set; }
@@ -34,6 +35,8 @@ namespace HealthShark.DataAccess.Repository
         public IWorkOutTypeRepository WorkOut { get; private set; }
 
         public IUserVMRepository UserVM { get; private set; }
+
+        public IUserAssignmentRepository UserAssignmentVM { get; private set; }
 
         public void Dispose()
         {
