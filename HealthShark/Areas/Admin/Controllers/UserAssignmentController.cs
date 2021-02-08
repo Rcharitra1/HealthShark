@@ -25,45 +25,16 @@ namespace HealthShark.Areas.Admin.Controllers
         private readonly ApplicationDbContext _db;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public UserAssignmentController(IUnitOfWork unitOfWork, ApplicationDbContext db, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager)
+        public UserAssignmentController(IUnitOfWork unitOfWork, ApplicationDbContext db, IHttpContextAccessor httpContextAccessor )
         {
             _unitOfWork = unitOfWork;
             _db = db;
             _httpContextAccessor = httpContextAccessor;
-            _userManager = userManager;
+    
         }
 
-        //public IActionResult Index(int? id)
-        //{
-        //    //var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-        //    //var selectedPlan = _unitOfWork.UserPlan.Get(id.GetValueOrDefault());
-
-        //    //UserAssignmentVM userAssignment = new UserAssignmentVM();
-
-        //    var selectedPlan = new UserPlan();
-        //    if(id is null)
-        //    {
-        //        return View(selectedPlan);
-        //    }
-
-        //    selectedPlan = _unitOfWork.UserPlan.Get(id.GetValueOrDefault());
-
-        //    if(selectedPlan is null)
-        //    {
-        //        return NotFound();
-
-        //    }
-
-
-            
-
-
-        //    return View(selectedPlan);
-        //}
 
         [HttpGet]
 
@@ -93,7 +64,7 @@ namespace HealthShark.Areas.Admin.Controllers
 
         [AutoValidateAntiforgeryToken]
         [HttpPost]
-        public Async Upsert(UserAssignmentVM userAssignmentVM)
+        public IActionResult Upsert(UserAssignmentVM userAssignmentVM)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
@@ -102,24 +73,24 @@ namespace HealthShark.Areas.Admin.Controllers
 
                 userAssignmentVM.UserId = userId;
 
-                //List<ApplicationUser> trainers = _db.ApplicationUsers.Where(x => x.Role == SD.Role_Trainer).ToList();
-
-                //int limit = trainers.Count();
-                //Random random = new Random();
-                //int randomTrainer = random.Next(0, limit);
-                //var trainer = trainers[randomTrainer];
-
-                //List<ApplicationUser> trainer = await _userManager.GetUsersInRoleAsync(SD.Role_Trainer);
+                List<ApplicationUser> trainers = _db.ApplicationUsers.Where(x => x.Role == SD.Role_Trainer).ToList();
+                int limit = trainers.Count();
+                Random random = new Random();
+                int randomTrainer = random.Next(0, limit);
+                var trainer = trainers[randomTrainer];
 
 
+                userAssignmentVM.TrainerId = trainer.Id;
 
-                //userAssignmentVM.TrainerId = trainer.Id;
 
-                //List<ApplicationUser> dieticians = _db.ApplicationUsers.Where(x => x.Role == SD.Role_Dietician).ToList();
-                //int limitDiet = dieticians.Count();
-                //int randomDietician = random.Next(0, limitDiet);
-                //var dietician = dieticians[randomDietician];
-                //userAssignmentVM.DieticianId = dietician.Id;
+
+
+
+                List<ApplicationUser> dieticians = _db.ApplicationUsers.Where(x => x.Role == SD.Role_Dietician).ToList();
+                int limitDiet = dieticians.Count();
+                int randomDietician = random.Next(0, limitDiet);
+                var dietician = dieticians[randomDietician];
+                userAssignmentVM.DieticianId = dietician.Id;
 
 
                 _unitOfWork.UserAssignmentVM.Add(userAssignmentVM);
@@ -132,10 +103,6 @@ namespace HealthShark.Areas.Admin.Controllers
         }
 
 
-        //public async Task<IActionResult> GetUser(string role)
-        //{
-        //    //return await _userManager.GetUsersInRoleAsync(role);
-        //}
 
 
     }
