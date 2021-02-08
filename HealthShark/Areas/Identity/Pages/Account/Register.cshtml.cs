@@ -120,7 +120,7 @@ namespace HealthShark.Areas.Identity.Pages.Account
                     Province=Input.Province,
                     PhoneNumber=Input.PhoneNumber,
                     PostalCode=Input.PostalCode,
-                    Role=Input.Role
+                    Role=String.IsNullOrEmpty(Input.Role)? SD.Role_Customer : Input.Role
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
