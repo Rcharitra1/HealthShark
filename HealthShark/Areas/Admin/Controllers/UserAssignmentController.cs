@@ -41,19 +41,21 @@ namespace HealthShark.Areas.Admin.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userAssignmentDummyClass = new UserAssignmentUpsertVM();
+            userAssignmentDummyClass.UserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var selectedPlan = _unitOfWork.UserPlan.Get(id.GetValueOrDefault());
-            UserAssignmentVM userAssignmentVM = new UserAssignmentVM();
+            userAssignmentDummyClass.User = _db.ApplicationUsers.Find(userAssignmentDummyClass.UserId);
 
-            if ((selectedPlan!=null) && (userId !=null))
+            userAssignmentDummyClass.Plan = selectedPlan;
+            userAssignmentDummyClass.PlanId = id.GetValueOrDefault();
+
+
+            if ((selectedPlan!=null) && (userAssignmentDummyClass.User !=null))
             {
                 
 
-                userAssignmentVM.UserId = userId;
-                userAssignmentVM.UserPlanId = selectedPlan.Id;
-                userAssignmentVM.UserPlan = selectedPlan;
-                return View(userAssignmentVM);
+                return View(userAssignmentDummyClass);
             }
             else
             {
@@ -64,14 +66,17 @@ namespace HealthShark.Areas.Admin.Controllers
 
         [AutoValidateAntiforgeryToken]
         [HttpPost]
-        public IActionResult Upsert(UserAssignmentVM userAssignmentVM)
+        public IActionResult Upsert(string userId, string planId)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            
             if (ModelState.IsValid)
             {
+
+                UserAssignmentVM userAssignmentVM = new UserAssignmentVM();
                 userAssignmentVM.Paid = true;
 
                 userAssignmentVM.UserId = userId;
+                userAssignmentVM.UserPlanId = int.Parse(planId);
 
                 List<ApplicationUser> trainers = _db.ApplicationUsers.Where(x => x.Role == SD.Role_Trainer).ToList();
                 int limit = trainers.Count();
@@ -92,16 +97,17 @@ namespace HealthShark.Areas.Admin.Controllers
                 var dietician = dieticians[randomDietician];
                 userAssignmentVM.DieticianId = dietician.Id;
 
-
                 _unitOfWork.UserAssignmentVM.Add(userAssignmentVM);
                 _unitOfWork.Save();
 
-                return RedirectToAction("Details", "Details", new { area = "Customer" });
+                return RedirectToAction("Index", "UserVM", new { area = "Customer" });
 
             }
-            return View(userAssignmentVM);
+            return NotFound();
         }
 
+
+  
 
 
 

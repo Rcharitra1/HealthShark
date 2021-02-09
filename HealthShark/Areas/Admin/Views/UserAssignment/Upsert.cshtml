@@ -1,10 +1,65 @@
-﻿@model HealthShark.Models.Models.ViewModels.UserAssignmentVM
+﻿@model HealthShark.Models.Models.ViewModels.UserAssignmentUpsertVM
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1 class="text-primary">Buy A Plan</h1>
+<form method="post">
 
+    <div class="row mx-2">
+
+        <div class="col-8">
+            <div class="col-4">
+                <label asp-for="@Model.User.Name"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.User.Name" class="form-control" disabled />
+
+            </div>
+            <div class="col-4">
+                <label asp-for="@Model.Plan.Description"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.Plan.Description" class="form-control" disabled />>
+
+            </div>
+
+            <div class="col-4">
+                <label asp-for="@Model.Plan.Duration"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.Plan.Duration" class="form-control" disabled />
+            </div>
+
+            <div class="col-4">
+                <label asp-for="@Model.Plan.Price"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.Plan.Price" class="form-control" disabled />
+            </div>
+
+
+
+            <div class="col-4">
+                <a class="btn btn-success" asp-action="Details" asp-route-id="@Model.PlanId" asp-area="Customer" asp-controller="Home" onclick="return confirm('You sure want to leave this page?')">Back To Details</a>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary text-white" asp-route-planId="@Model.PlanId" asp-route-userId="@Model.UserId">Purchase</button>
+            </div>
+
+
+
+
+
+        </div>
+        <div class="col-4">
+            <img src="@Model.Plan.ImageUrl" class="image-fluid rounded" />
+        </div>
+
+
+
+    </div>
+</form>
 
 
