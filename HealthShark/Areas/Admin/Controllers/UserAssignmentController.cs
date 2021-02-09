@@ -84,11 +84,7 @@ namespace HealthShark.Areas.Admin.Controllers
                 int randomTrainer = random.Next(0, limit);
                 var trainer = trainers[randomTrainer];
 
-
                 userAssignmentVM.TrainerId = trainer.Id;
-
-
-
 
 
                 List<ApplicationUser> dieticians = _db.ApplicationUsers.Where(x => x.Role == SD.Role_Dietician).ToList();
