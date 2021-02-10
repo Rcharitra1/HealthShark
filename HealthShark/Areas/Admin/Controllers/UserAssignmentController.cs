@@ -120,5 +120,24 @@ namespace HealthShark.Areas.Admin.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetOne(int? id)
+        {
+            var userAssignmentVM = _unitOfWork.UserAssignmentVM.Get(id.GetValueOrDefault());
+           
+
+
+            if (userAssignmentVM == null)
+            {
+                
+                return NotFound();
+            }
+            userAssignmentVM.User = _db.ApplicationUsers.Find(userAssignmentVM.UserId);
+            userAssignmentVM.Dietician = _db.ApplicationUsers.Find(userAssignmentVM.DieticianId);
+            userAssignmentVM.Trainer = _db.ApplicationUsers.Find(userAssignmentVM.TrainerId);
+            userAssignmentVM.UserPlan = _db.UserPlans.Find(userAssignmentVM.UserPlanId);
+            return View(userAssignmentVM);
+        }
+
     }
 }

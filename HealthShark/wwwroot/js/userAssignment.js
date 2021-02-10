@@ -21,7 +21,7 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                             <div class="text-center">
-                                <a href="/Admin/UserAssignment/PlanDetails/${data}" class="btn btn-danger text-white px-2" style="cursor:pointer">
+                                <a href="/Admin/UserAssignment/GetOne/${data}" class="btn btn-danger text-white px-2" style="cursor:pointer">
                                     <i class="fas fa-info"></i>&nbsp;Details
                                  </a>
                             </div>
