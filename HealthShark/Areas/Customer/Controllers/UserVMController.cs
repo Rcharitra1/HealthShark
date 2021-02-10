@@ -25,12 +25,14 @@ namespace HealthShark.Areas.Customer.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly ApplicationDbContext _db;
 
-        public UserVMController(IUnitOfWork unitOfWork,IHttpContextAccessor httpContextAccessor, IWebHostEnvironment hostEnvironment)
+        public UserVMController(IUnitOfWork unitOfWork,IHttpContextAccessor httpContextAccessor, IWebHostEnvironment hostEnvironment, ApplicationDbContext db)
         {
             _unitOfWork = unitOfWork;
             _httpContextAccessor = httpContextAccessor;
             _hostEnvironment = hostEnvironment;
+            _db = db;
 
 
         }
@@ -142,35 +144,7 @@ namespace HealthShark.Areas.Customer.Controllers
            
         }
 
-        //In case I would like to have delete functionality
-
-        //[HttpDelete]
-
-
-        //public IActionResult Delete(int id)
-        //{
-        //    var objFromDb = _unitOfWork.UserVM.Get(id);
-        //    if(objFromDb != null)
-        //    {
-        //        if(objFromDb.ImageUrl !=null)
-        //        {
-        //            var webRoot = _hostEnvironment.WebRootPath;
-        //            var imagePath = Path.Join(webRoot, objFromDb.ImageUrl.TrimStart('\\'));
-        //            if(System.IO.File.Exists(imagePath))
-        //            {
-        //                System.IO.File.Delete(imagePath);
-        //            }
-        //            _unitOfWork.UserVM.Remove(objFromDb);
-        //            _unitOfWork.Save();
-        //            return Json(new { success = true, message = "Delete Successfull" });
-        //        }
-
-        //    }
-        //    return Json(new { success = false, message = "delete failed" });
-        //}
-
-
-
+      
 
     }
 }

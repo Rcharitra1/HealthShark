@@ -35,9 +35,7 @@ namespace HealthShark.Areas.Admin.Controllers
     
         }
 
-
         [HttpGet]
-
 
         public IActionResult Upsert(int? id)
         {
@@ -101,11 +99,26 @@ namespace HealthShark.Areas.Admin.Controllers
             }
             return NotFound();
         }
+        [HttpGet]
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult GetAll()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<UserAssignmentVM> allObj = _db.UserAssignmentVMs.Where(x => x.UserId == userId).ToList(); 
+            foreach(var obj in allObj)
+            {
+                obj.Trainer = _db.ApplicationUsers.Find(obj.TrainerId);
+                obj.Dietician = _db.ApplicationUsers.Find(obj.DieticianId);
+                obj.User = _db.ApplicationUsers.Find(obj.UserId);
+                obj.UserPlan = _db.UserPlans.Find(obj.UserPlanId);
+            }
+            return Json(new { data = allObj });
 
-  
-
-
+        }
 
     }
 }
