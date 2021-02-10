@@ -66,7 +66,7 @@
 
 
             <div class="form-group">
-                <a class="btn btn-success asp-action="Update" asp-area="Customer" asp-route-id="@Model.Id"><i class="fas fa-edit"></i>&nbsp;Edit</a>
+                <a class="btn btn-success" asp-action="Update" asp-area="Customer" asp-route-id="@Model.Id"><i class="fas fa-edit"></i>&nbsp;Edit</a>
 
                 <a class="btn btn-primary" asp-action="Index" asp-area="Admin" asp-controller="UserAssignment"><i class="fas fa-list"></i>&nbsp;Plans</a>
 
@@ -93,6 +93,6 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 
 }
