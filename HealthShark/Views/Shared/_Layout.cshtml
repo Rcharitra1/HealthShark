@@ -59,7 +59,7 @@
 
                                         @if (User.IsInRole(SD.Role_Trainer) || User.IsInRole(SD.Role_Dietician))
                                         {
-                                            <a class="dropdown-item text-light" href="#">My Customers</a>
+                                            <a class="dropdown-item text-light" asp-action="Index" asp-area="Admin" asp-controller="EmployeeAssignment">My Customers</a>
                                         }
 
 

@@ -1,4 +1,5 @@
-﻿var dataTable;
+﻿
+var dataTable;
 
 $(document).ready(function () {
     loadDataTable();
@@ -11,7 +12,7 @@ function loadDataTable() {
             "url": "/Admin/UserAssignment/GetAll"
         },
         "columns": [
-            { "data": "user.name", "width": "20%" },
+            {"data": "user.name", "width": "20%" },
             { "data": "trainer.name", "width": "20%" },
             { "data": "dietician.name", "width": "20%" },
             { "data": "userPlan.description", "width": "20%" },
@@ -30,3 +31,8 @@ function loadDataTable() {
         ]
     });
 }
+
+
+
+
+

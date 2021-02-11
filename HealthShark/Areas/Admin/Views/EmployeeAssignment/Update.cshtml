@@ -1,0 +1,79 @@
+﻿@model HealthShark.Models.Models.ViewModels.EmployeeAssignment
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-primary">Buy A Plan</h1>
+<form method="post">
+
+    <div class="row mx-2">
+
+        <div class="col-8">
+            <div class="col-4">
+                <label asp-for="@Model.UserAssignmentVM.User.Name"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.UserAssignmentVM.User.Name" class="form-control" disabled />
+
+            </div>
+            <div class="col-4">
+                <label asp-for="@Model.UserAssignmentVM.UserPlan.Description"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.UserAssignmentVM.UserPlan.Description" class="form-control" disabled />>
+
+            </div>
+
+            <div class="col-4">
+                <label asp-for="@Model.UserAssignmentVM.UserPlan.Duration"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.UserAssignmentVM.UserPlan.Duration" class="form-control" disabled />
+            </div>
+
+            <div class="col-4">
+                <label>Current Diet</label>
+            </div>
+            <div class="col-8">
+                <input value="@(Model.UserAssignmentVM.DietId == null? "Not Assigned" : Model.UserAssignmentVM.Diet.Description)" class="form-control" disabled />
+            </div>
+
+
+            <div class="col-4">
+                <label>Current Diet</label>
+            </div>
+            <div class="col-8">
+                <input value="@(Model.UserAssignmentVM.WorkoutId == null? "Not Assigned" : Model.UserAssignmentVM.WorkOut.Description)" class="form-control" disabled />
+            </div>
+            <div class="col-4">
+                <label>Current Diet</label>
+            </div>
+            <div class="col-8">
+                <input value="@(Model.UserAssignmentVM.BodyTypeId == null? "Not Assigned" : Model.UserAssignmentVM.BodyType.Description)" class="form-control" disabled />
+            </div>
+
+
+
+            <div class="col-4">
+                <a class="btn btn-success" asp-action="Index" asp-area="Admin" asp-controller="EmployeeAssignment" onclick="return confirm('You sure want to leave this page?')">Back To Details</a>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary text-white" asp-route-userAssignment="@Model.UserAssignmentVM">Purchase</button>
+            </div>
+
+
+
+
+
+        </div>
+        <div class="col-4">
+            <img src="@Model.UserAssignmentVM.UserPlan.ImageUrl" class="image-fluid rounded" />
+        </div>
+
+
+
+    </div>
+</form>
+
+

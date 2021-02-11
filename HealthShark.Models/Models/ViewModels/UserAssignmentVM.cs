@@ -18,14 +18,14 @@ namespace HealthShark.Models.Models.ViewModels
         [ForeignKey("UserId")]
 
 
-        public ApplicationUser User { get; set; }
+        public  ApplicationUser User { get; set; }
         [DisplayFormat(ConvertEmptyStringToNull = true)]
 
         public string TrainerId { get; set; }
 
         [ForeignKey("TrainerId")]
 
-        public ApplicationUser Trainer { get; set; }
+        public  ApplicationUser Trainer { get; set; }
 
         [DisplayFormat(ConvertEmptyStringToNull = true)]
 
@@ -50,7 +50,7 @@ namespace HealthShark.Models.Models.ViewModels
         public int? BodyTypeId { get; set; }
         [ForeignKey("BodyTypeId")]
 
-        public BodyType BodyType { get; set; }
+        public  BodyType BodyType { get; set; }
 
         public int? UserPlanId { get; set; }
 
