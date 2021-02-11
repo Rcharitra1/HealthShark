@@ -7,14 +7,86 @@
 <h2 class="text-info">Current Plan Details</h2>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-8">
+
         <div class="form-group row">
             <div class="col-4">
-                <label for="@Model.User.Name"></label>
+                <label asp-for="@Model.User.Name"></label>
             </div>
             <div class="col-8">
-                <input value="@Model.User.Name" class="form-control" disabled/>
+                <input asp-for="@Model.User.Name" class="form-control" disabled />
             </div>
         </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Trainer Name</label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.Trainer.Name" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Dietician Name</label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.Dietician.Name" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Plan Name</label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.UserPlan.Name" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Plan Description</label>
+            </div>
+            <div class="col-8">
+                <input asp-for="@Model.UserPlan.Description" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Body Type</label>
+            </div>
+            <div class="col-8">
+                <input value="@((Model.BodyTypeId == null)?  "Not Assigned": Model.BodyType.Description )" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Workout Type</label>
+            </div>
+            <div class="col-8">
+                <input value="@((Model.WorkoutId==null)?  "Not Assigned": Model.WorkOut.Description )" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Diet Type</label>
+            </div>
+            <div class="col-8">
+                <input value="@((Model.DietId==null)?  "Not Assigned": Model.Diet.Description )" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+
+            </div>
+            <div class="col-4">
+                <a class="btn btn-info" asp-action="Index">Back To All Plans</a>
+            </div>
+          
+        </div>
+    </div>
+    <div class="col-4">
+        <img src="@Model.UserPlan.ImageUrl" class="image-fluid rounded"/>
     </div>
 </div>
