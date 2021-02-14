@@ -166,9 +166,12 @@ namespace HealthShark.Areas.Identity.Pages.Account
                         if (user.Role == SD.Role_Dietician)
                         {
                             await _userManager.AddToRoleAsync(user, SD.Role_Dietician);
+                        }else if(user.Role==SD.Role_Trainer)
+                        {
+                            await _userManager.AddToRoleAsync(user, SD.Role_Trainer);
                         }
 
-                        await _userManager.AddToRoleAsync(user, SD.Role_Trainer);
+                        
                     }
 
                     return LocalRedirect(returnUrl);

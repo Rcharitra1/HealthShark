@@ -6,12 +6,10 @@
 
 
 <div class="row">
-    <div class="col-4">
-        <h2 class="text-primary">Body Types</h2>
+    <div class="col-12">
+        <h2 class="text-primary">Customers</h2>
     </div>
-    <div class="col-8 text-right">
-        <a class="btn btn-primary" asp-action="Update"><i class="fas fa-plus"></i>&nbsp; Update a user plan</a>
-    </div>
+
 </div>
 
 
@@ -25,19 +23,12 @@
                 @if (User.IsInRole(SD.Role_Trainer))
                 {
                     <th>Dietician</th>
+                    <th>Diet</th>
                 }
+
                 @if (User.IsInRole(SD.Role_Dietician))
                 {
                     <th>Trainer</th>
-                }
-
-
-                @if (User.IsInRole(SD.Role_Trainer))
-                {
-                    <th>Diet</th>
-                }
-                @if (User.IsInRole(SD.Role_Dietician))
-                {
                     <th>Workout</th>
                     <th>BodyType</th>
                 }

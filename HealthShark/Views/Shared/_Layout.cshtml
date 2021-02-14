@@ -83,8 +83,9 @@
 
                                         @if (User.IsInRole(SD.Role_Admin))
                                         {
-                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="BodyType" asp-action="Index">Body Types</a>
+                                  
                                             <a class="dropdown-item text-light" asp-action="Index" asp-area="Admin" asp-controller="UserPlan">Plans</a>
+                                           
                                         }
 
 
@@ -96,6 +97,7 @@
                                         @if (User.IsInRole(SD.Role_Trainer) || User.IsInRole(SD.Role_Admin))
                                         {
                                             <a class="dropdown-item text-light" asp-area="Admin" asp-controller="WorkOutType" asp-action="Index">Work Outs</a>
+                                            <a class="dropdown-item text-light" asp-area="Admin" asp-controller="BodyType" asp-action="Index">Body Types</a>
                                         }
                                     </div>
                                 </div>

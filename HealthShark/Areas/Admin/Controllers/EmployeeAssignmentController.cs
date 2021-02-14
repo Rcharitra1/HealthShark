@@ -1,5 +1,6 @@
 ﻿using HealthShark.Data;
 using HealthShark.DataAccess.Repository.IRepository;
+using HealthShark.Models.Models;
 using HealthShark.Models.Models.ViewModels;
 using HealthShark.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -44,37 +45,45 @@ namespace HealthShark.Areas.Admin.Controllers
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var User = _db.ApplicationUsers.Find(userId);
-                  
+            var User = _db.ApplicationUsers.Find(userId);       
             
-                List<UserAssignmentVM> allObj = new List<UserAssignmentVM>();
+                List<UserAssignmentVM> allObjs = new List<UserAssignmentVM>();
                 if (User.Role == SD.Role_Trainer)
                 {
-                        allObj = _db.UserAssignmentVMs.Where(x => x.TrainerId == userId).ToList();
-                    foreach (var obj in allObj)
+                        allObjs = _db.UserAssignmentVMs.Where(x => x.TrainerId == userId).ToList();
+                    foreach (var obj in allObjs)
                     {
                         obj.Dietician = _db.ApplicationUsers.Find(obj.DieticianId);
                         obj.User = _db.ApplicationUsers.Find(obj.UserId);
-                        obj.Diet = (obj.DietId == null ? null : _unitOfWork.Diet.Get(obj.DietId.GetValueOrDefault()));
-                        obj.WorkOut = (obj.WorkoutId == null ? null : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
-                        obj.BodyType = (obj.BodyTypeId == null ? null : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
+                        obj.Diet = (obj.DietId == null ? new Diet() : _unitOfWork.Diet.Get(obj.DietId.GetValueOrDefault()));
+
+                    //empty object assignment to handle data unavailablity error for data tab
+
+                        obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
+                        obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
+                        obj.UserPlan = (obj.UserPlanId == null) ? null : _unitOfWork.UserPlan.Get(obj.UserPlanId.GetValueOrDefault());
                     }
 
                  }
                 else if (User.Role == SD.Role_Dietician)
                 {
-                    allObj = _db.UserAssignmentVMs.Where(x => x.DieticianId == userId).ToList();
-                    foreach (var obj in allObj)
+                    allObjs = _db.UserAssignmentVMs.Where(x => x.DieticianId == userId).ToList();
+                    foreach (var obj in allObjs)
                     {
-                        obj.Dietician = _db.ApplicationUsers.Find(obj.DieticianId);
+                        obj.Trainer = _db.ApplicationUsers.Find(obj.TrainerId);
                         obj.User = _db.ApplicationUsers.Find(obj.UserId);
-                        obj.Diet = (obj.DietId == null ? null : _unitOfWork.Diet.Get(obj.DietId.GetValueOrDefault()));
-                        obj.WorkOut = (obj.WorkoutId == null ? null : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
-                        obj.BodyType = (obj.BodyTypeId == null ? null : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
-                    }
+
+                    //empty object assignment to handle data unavailablity error for data tab
+
+
+                    obj.Diet = (obj.DietId == null ? new Diet() : _unitOfWork.Diet.Get(obj.DietId.GetValueOrDefault()));
+                        obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
+                        obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
+                        obj.UserPlan = (obj.UserPlanId == null) ? null : _unitOfWork.UserPlan.Get(obj.UserPlanId.GetValueOrDefault());
+                }
                  }
 
-                return Json(new { data = allObj });
+                return Json(new { data = allObjs });
 
         }
         [HttpGet]
@@ -90,7 +99,8 @@ namespace HealthShark.Areas.Admin.Controllers
 
             vm.UserAssignmentVM = _db.UserAssignmentVMs.Find(Id);
             vm.UserVM = _db.UserVMs.Find(vm.UserAssignmentVM.UserId);
-
+     
+            
             if(vm is null)
             {
                 return NotFound();
