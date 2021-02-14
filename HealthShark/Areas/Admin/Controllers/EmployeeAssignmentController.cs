@@ -59,8 +59,8 @@ namespace HealthShark.Areas.Admin.Controllers
 
                     //empty object assignment to handle data unavailablity error for data tab
 
-                        obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
-                        obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
+                        //obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
+                        //obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
                         obj.UserPlan = (obj.UserPlanId == null) ? null : _unitOfWork.UserPlan.Get(obj.UserPlanId.GetValueOrDefault());
                     }
 
@@ -80,8 +80,8 @@ namespace HealthShark.Areas.Admin.Controllers
                         obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
                         obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
                         obj.UserPlan = (obj.UserPlanId == null) ? null : _unitOfWork.UserPlan.Get(obj.UserPlanId.GetValueOrDefault());
+                    }
                 }
-                 }
 
                 return Json(new { data = allObjs });
 
@@ -98,8 +98,32 @@ namespace HealthShark.Areas.Admin.Controllers
 
 
             vm.UserAssignmentVM = _db.UserAssignmentVMs.Find(Id);
-            vm.UserVM = _db.UserVMs.Find(vm.UserAssignmentVM.UserId);
-     
+
+            UserVM userVM = new UserVM();
+
+            List<UserVM> userVms = _db.UserVMs.Where(x => x.User.Id == vm.UserAssignmentVM.UserId).ToList();
+
+            userVM = userVms[0];
+
+            vm.UserAssignmentVM.UserPlan = _db.UserPlans.Where(x => x.Id == vm.UserAssignmentVM.UserPlanId).ToList()[0];
+
+            vm.UserAssignmentVM.BodyType = (vm.UserAssignmentVM.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(vm.UserAssignmentVM.BodyTypeId.GetValueOrDefault()));
+
+            vm.UserAssignmentVM.WorkOut = (vm.UserAssignmentVM.WorkOut == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(vm.UserAssignmentVM.WorkoutId.GetValueOrDefault()));
+
+            vm.UserAssignmentVM.Diet = (vm.UserAssignmentVM.Diet == null ? new Diet() : _unitOfWork.Diet.Get(vm.UserAssignmentVM.DietId.GetValueOrDefault()));
+            
+            
+
+            vm.UserVM = userVM;
+            vm.UserVM.User = _db.ApplicationUsers.Where(x => x.Id == userVM.UserId).ToList()[0];
+
+            vm.diets = _unitOfWork.Diet.GetAll().ToList();
+            vm.workOutTypes = _unitOfWork.WorkOut.GetAll().ToList();
+            vm.bodyTypes = _unitOfWork.BodyType.GetAll().ToList();
+
+
+
             
             if(vm is null)
             {
@@ -114,9 +138,10 @@ namespace HealthShark.Areas.Admin.Controllers
         [HttpPost]
         [AutoValidateAntiforgeryToken]
 
-        public IActionResult Update(UserAssignmentVM userAssignment)
+        public IActionResult Update(EmployeeAssignment employeeAssignment)
         {
-            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+            UserAssignmentVM userAssignment = new UserAssignmentVM();
+            userAssignment= employeeAssignment.UserAssignmentVM;
             if (ModelState.IsValid)
             {
                 if (userAssignment.Id != 0)
@@ -125,13 +150,7 @@ namespace HealthShark.Areas.Admin.Controllers
                     _unitOfWork.Save();
                     return RedirectToAction(nameof(Index));
                 }
-                else
-                {
-                  
-                    employeeAssignment.UserAssignmentVM = _db.UserAssignmentVMs.Find(userAssignment.Id);
-                    employeeAssignment.UserVM = _db.UserVMs.Find(employeeAssignment.UserAssignmentVM.UserId);
-                    
-                }
+                
 
             }
             return View(employeeAssignment);

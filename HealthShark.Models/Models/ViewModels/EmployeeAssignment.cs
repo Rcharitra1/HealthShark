@@ -9,5 +9,11 @@ namespace HealthShark.Models.Models.ViewModels
         public UserVM UserVM { get; set; }
 
         public UserAssignmentVM UserAssignmentVM { get; set; }
+
+        public List<BodyType> bodyTypes { get; set; }
+
+        public List<WorkOutType> workOutTypes { get; set; }
+        
+        public List<Diet> diets { get; set; } 
     }
 }
