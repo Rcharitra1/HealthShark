@@ -59,9 +59,9 @@ namespace HealthShark.Areas.Admin.Controllers
 
                     //empty object assignment to handle data unavailablity error for data tab
 
-                        //obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
-                        //obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
-                        obj.UserPlan = (obj.UserPlanId == null) ? null : _unitOfWork.UserPlan.Get(obj.UserPlanId.GetValueOrDefault());
+                    obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
+                    obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
+                    obj.UserPlan = (obj.UserPlanId == null) ? null : _unitOfWork.UserPlan.Get(obj.UserPlanId.GetValueOrDefault());
                     }
 
                  }
@@ -80,6 +80,9 @@ namespace HealthShark.Areas.Admin.Controllers
                         obj.WorkOut = (obj.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(obj.WorkoutId.GetValueOrDefault()));
                         obj.BodyType = (obj.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(obj.BodyTypeId.GetValueOrDefault()));
                         obj.UserPlan = (obj.UserPlanId == null) ? null : _unitOfWork.UserPlan.Get(obj.UserPlanId.GetValueOrDefault());
+
+
+                    
                     }
                 }
 
@@ -90,47 +93,49 @@ namespace HealthShark.Areas.Admin.Controllers
 
         public IActionResult Update(int? Id)
         {
-            EmployeeAssignment vm = new EmployeeAssignment();
+  
+
+
+
+            UserAssignmentVM userAssignment = new UserAssignmentVM();
+
+
             if(Id is null)
             {
                 return NotFound();
             }
 
+            userAssignment = _unitOfWork.UserAssignmentVM.Get(Id.GetValueOrDefault());
 
-            vm.UserAssignmentVM = _db.UserAssignmentVMs.Find(Id);
-
-            UserVM userVM = new UserVM();
-
-            List<UserVM> userVms = _db.UserVMs.Where(x => x.User.Id == vm.UserAssignmentVM.UserId).ToList();
-
-            userVM = userVms[0];
-
-            vm.UserAssignmentVM.UserPlan = _db.UserPlans.Where(x => x.Id == vm.UserAssignmentVM.UserPlanId).ToList()[0];
-
-            vm.UserAssignmentVM.BodyType = (vm.UserAssignmentVM.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(vm.UserAssignmentVM.BodyTypeId.GetValueOrDefault()));
-
-            vm.UserAssignmentVM.WorkOut = (vm.UserAssignmentVM.WorkOut == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(vm.UserAssignmentVM.WorkoutId.GetValueOrDefault()));
-
-            vm.UserAssignmentVM.Diet = (vm.UserAssignmentVM.Diet == null ? new Diet() : _unitOfWork.Diet.Get(vm.UserAssignmentVM.DietId.GetValueOrDefault()));
-            
-            
-
-            vm.UserVM = userVM;
-            vm.UserVM.User = _db.ApplicationUsers.Where(x => x.Id == userVM.UserId).ToList()[0];
-
-            vm.diets = _unitOfWork.Diet.GetAll().ToList();
-            vm.workOutTypes = _unitOfWork.WorkOut.GetAll().ToList();
-            vm.bodyTypes = _unitOfWork.BodyType.GetAll().ToList();
-
-
-
-            
-            if(vm is null)
+            if(userAssignment is null)
             {
                 return NotFound();
             }
 
-            return View(vm);
+            userAssignment.workOuts = _unitOfWork.WorkOut.GetAll().ToList();
+            userAssignment.WorkOut = (userAssignment.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(userAssignment.WorkoutId.GetValueOrDefault()));
+
+
+            //To compensate for datatable not found error
+            userAssignment.diets = _unitOfWork.Diet.GetAll().ToList();
+            userAssignment.Diet = (userAssignment.DietId == null ? new Diet() : _unitOfWork.Diet.Get(userAssignment.DietId.GetValueOrDefault()));
+
+
+            userAssignment.bodyTypes = _unitOfWork.BodyType.GetAll().ToList();
+            userAssignment.BodyType = (userAssignment.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(userAssignment.BodyTypeId.GetValueOrDefault()));
+
+            userAssignment.User = _db.ApplicationUsers.Where(x => x.Id == userAssignment.UserId).ToList()[0];
+            userAssignment.userVM = _db.UserVMs.Where(x => x.User.Id == userAssignment.UserId).ToList()[0];
+
+            userAssignment.UserPlan = _unitOfWork.UserPlan.Get(userAssignment.UserPlanId.GetValueOrDefault());
+
+            
+
+
+
+            return View(userAssignment);
+
+
 
 
         }
@@ -138,22 +143,61 @@ namespace HealthShark.Areas.Admin.Controllers
         [HttpPost]
         [AutoValidateAntiforgeryToken]
 
-        public IActionResult Update(EmployeeAssignment employeeAssignment)
+        public IActionResult Update( int? Id , int? workOutId, int? bodyTypeId , int? dietId )
         {
-            UserAssignmentVM userAssignment = new UserAssignmentVM();
-            userAssignment= employeeAssignment.UserAssignmentVM;
+
+            UserAssignmentVM userAssignment = _unitOfWork.UserAssignmentVM.Get(Id.GetValueOrDefault());
+
+            if(workOutId != null)
+            {
+                userAssignment.WorkoutId = workOutId;
+            }
+
+            if(bodyTypeId !=null)
+            {
+                userAssignment.BodyTypeId = bodyTypeId;
+            }
+            
+            if(dietId !=null)
+            {
+                userAssignment.DietId = dietId;
+            }
+
+            
+
             if (ModelState.IsValid)
             {
                 if (userAssignment.Id != 0)
                 {
+                    
                     _unitOfWork.UserAssignmentVM.Update(userAssignment);
                     _unitOfWork.Save();
                     return RedirectToAction(nameof(Index));
                 }
-                
+
 
             }
-            return View(employeeAssignment);
+            else
+            {
+                userAssignment.workOuts = _unitOfWork.WorkOut.GetAll().ToList();
+                userAssignment.WorkOut = (userAssignment.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(userAssignment.WorkoutId.GetValueOrDefault()));
+
+
+                //To compensate for datatable not found error
+                userAssignment.diets = _unitOfWork.Diet.GetAll().ToList();
+                userAssignment.Diet = (userAssignment.DietId == null ? new Diet() : _unitOfWork.Diet.Get(userAssignment.DietId.GetValueOrDefault()));
+
+
+                userAssignment.bodyTypes = _unitOfWork.BodyType.GetAll().ToList();
+                userAssignment.BodyType = (userAssignment.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(userAssignment.BodyTypeId.GetValueOrDefault()));
+
+                userAssignment.User = _db.ApplicationUsers.Where(x => x.Id == userAssignment.UserId).ToList()[0];
+                userAssignment.userVM = _db.UserVMs.Where(x => x.User.Id == userAssignment.UserId).ToList()[0];
+
+                userAssignment.UserPlan = _unitOfWork.UserPlan.Get(userAssignment.UserPlanId.GetValueOrDefault());
+            }
+            return View(userAssignment);
+
         }
 
        

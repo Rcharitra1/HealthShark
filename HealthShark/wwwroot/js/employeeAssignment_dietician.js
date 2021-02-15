@@ -15,7 +15,7 @@ function loadDataTable() {
             { "data": "user.name" },
             { "data": "userPlan.name" },
             { "data": "trainer.name" },
-            { "data": "workout.description", "defaultContent":""},
+            { "data": "workOut.type", "defaultContent":""},
             { "data": "bodyType.description", "defualtContent":"" },
             {
                 "data": "id",

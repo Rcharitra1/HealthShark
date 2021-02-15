@@ -13,7 +13,7 @@ namespace HealthShark.Areas.Admin
 {
     [Area("Admin")]
 
-    [Authorize(Roles=SD.Role_Admin)]
+    [Authorize(Roles=SD.Role_Admin+","+SD.Role_Trainer)]
     public class BodyTypeController : Controller
     {
 

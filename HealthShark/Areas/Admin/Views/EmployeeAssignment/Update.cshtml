@@ -1,7 +1,7 @@
-﻿@model HealthShark.Models.Models.ViewModels.EmployeeAssignment
-@using HealthShark.Utility 
+﻿@model HealthShark.Models.Models.ViewModels.UserAssignmentVM
+@using HealthShark.Utility
 
-  
+
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,47 +11,47 @@
 <form method="post">
 
     <div class="row p-3 border">
-
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="col-8">
             <div class="col-4">
-                <label asp-for="@Model.UserAssignmentVM.User.Name"></label>
+                <label asp-for="@Model.User.Name"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.UserAssignmentVM.User.Name" class="form-control" disabled />
+                <input asp-for="@Model.User.Name" class="form-control" disabled />
 
             </div>
             <div class="col-4">
-                <label asp-for="@Model.UserAssignmentVM.UserPlan.Description"></label>
+                <label asp-for="@Model.UserPlan.Description"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.UserAssignmentVM.UserPlan.Description" class="form-control" disabled />
+                <input asp-for="@Model.UserPlan.Description" class="form-control" disabled />
 
             </div>
 
             <div class="col-4">
-                <label asp-for="@Model.UserAssignmentVM.UserPlan.Duration"></label>
+                <label asp-for="@Model.UserPlan.Duration"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.UserAssignmentVM.UserPlan.Duration" class="form-control" disabled />
+                <input asp-for="@Model.UserPlan.Duration" class="form-control" disabled />
             </div>
 
             <div class="col-4">
                 <label>BMI</label>
             </div>
             <div class="col-8">
-                <input asp-for="@(Model.UserVM.BMI)" class="form-control" disabled />
+                <input asp-for="@(Model.userVM.BMI)" class="form-control" disabled />
             </div>
             <div class="col-4">
                 <label>Current Weight</label>
             </div>
             <div class="col-8">
-                <input asp-for="@(Model.UserVM.Weight)" class="form-control" disabled />
+                <input asp-for="@(Model.userVM.Weight)" class="form-control" disabled />
             </div>
             <div class="col-4">
                 <label>Current Height</label>
             </div>
             <div class="col-8">
-                <input asp-for="@(Model.UserVM.Height)" class="form-control" disabled />
+                <input asp-for="@(Model.userVM.Height)" class="form-control" disabled />
             </div>
 
 
@@ -65,36 +65,34 @@
                     <label>Current Diet</label>
                 </div>
                 <div class="col-8">
-                    <input value="@(Model.UserAssignmentVM.DietId == null? "Not Assigned" : Model.UserAssignmentVM.Diet.Type)" class="form-control" disabled />
+                    <input value="@(Model.DietId == null? "Not Assigned" : Model.Diet.Type)" class="form-control" disabled />
                 </div>
+
 
                 <div class="col-4">
-                    <label>Work out</label>
-                </div>
+                                   <label>Body Type</label>
+                               </div>
 
-                <div class="col-8">
-                    <select asp-for="@Model.UserAssignmentVM.WorkoutId" class="form-select form-control">
-                        <option value="">Select an work out</option>
-                        @foreach (var item in Model.workOutTypes)
-                        {
-                            <option value="@item.Id" checked="@item.Id==@Model.UserAssignmentVM.WorkoutId">@item.Type</option>
-                        }
-                    </select>
-                </div>
+                               <div class="col-8">
 
-                <div class="col-4">
-                    <label>Body Type</label>
-                </div>
+                                   @Html.DropDownListFor(m => m.BodyTypeId, new SelectList(Model.bodyTypes, "Id", "Description"),
+                "Please select a body type", new { @class = "form-control" })
 
-                <div class="col-8">
-                    <select asp-for="@Model.UserAssignmentVM.BodyTypeId" class="form-select form-control">
-                        <option value="">Select an body type</option>
-                        @foreach (var item in Model.bodyTypes)
-                        {
-                            <option asp-for="@item.Id" checked="@item.Id==@Model.UserAssignmentVM.BodyTypeId">@item.Description</option>
-                        }
-                    </select>
-                </div>
+                               </div>
+
+
+
+                               <div class="col-4">
+                                   <label>Work out</label>
+                               </div>
+
+                               <div class="col-8">
+
+
+                                   @Html.DropDownListFor(m => m.WorkoutId, new SelectList(Model.workOuts, "Id", "Type"),
+                "Please select a workout", new { @class = "form-control" })
+
+                               </div>
 
             }
 
@@ -105,65 +103,80 @@
                 </div>
 
                 <div class="col-8">
-                    <select asp-for="@Model.UserAssignmentVM.Diet" class="form-select form-control">
-                        <option value="">Select a diet</option>
-                        @foreach (var item in Model.diets)
-                        {
-                            <option value="@item.Id" checked="@item.Id==@Model.UserAssignmentVM.Diet">@item.Description</option>
-                        }
-                    </select>
+                    @Html.DropDownListFor(m => m.DietId, new SelectList(Model.diets, "Id", "Type"),
+ "-Please select a diet", new { @class = "form-control" })
+
                 </div>
 
                 <div class="col-4">
                     <label>Workout Assigned</label>
                 </div>
                 <div class="col-8">
-                    <input value="@(Model.UserAssignmentVM.WorkoutId == null? "Not Assigned" : Model.UserAssignmentVM.WorkOut.Description)" class="form-control" disabled />
+                    <input value="@(Model.WorkoutId == null? "Not Assigned" : Model.WorkOut.Description)" class="form-control" disabled />
                 </div>
                 <div class="col-4">
                     <label>Body Type</label>
                 </div>
                 <div class="col-8">
-                    <input value="@(Model.UserAssignmentVM.BodyTypeId == null? "Not Assigned" : Model.UserAssignmentVM.BodyType.Description)" class="form-control" disabled />
+                    <input value="@(Model.BodyTypeId == null? "Not Assigned" : Model.BodyType.Description)" class="form-control" disabled />
                 </div>
             }
 
-        <div class="form-group row mt-2">
-            <div class="col-12">
-                <div class="row ml-1">
-                    <div class="col">
-                        <a class="btn btn-success" asp-action="Index" asp-area="Admin" asp-controller="EmployeeAssignment" onclick="return confirm('You sure want to leave this page?')">Back To Details</a>
+            <div class="form-group row mt-2">
+                <div class="col-12">
+                    <div class="row ml-1">
+                        <div class="col">
+                            <a class="btn btn-success" asp-action="Index" asp-area="Admin" asp-controller="EmployeeAssignment" onclick="return confirm('You sure want to leave this page?')">Back To Details</a>
+                        </div>
+                        @if (User.IsInRole(SD.Role_Trainer))
+                        {
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary text-white px-3" asp-route-id="@Model.Id" asp-route-workOutId="@Model.WorkoutId" asp-route-bodyTypeId="@Model.BodyTypeId" asp-route-dietId="@null">Update</button>
+                            </div>
+                        }
+
+                        @if (User.IsInRole(SD.Role_Dietician))
+                        {
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary text-white px-3" asp-route-id="@Model.Id" asp-route-workOutId="@null" asp-route-bodyTypeId="@null" asp-route-dietId="@Model.DietId">Update</button>
+                            </div>
+                        }
+
+
+
+
                     </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary text-white px-3" asp-route-userAssignment="@Model">Update</button>
-                    </div>
+
                 </div>
-               
-            </div>
-            
-        </div>
-
-
-
-             
-
-
-
-
-
-
-
-
 
             </div>
 
-            <div class="col-4">
-                <img src=@Model.UserVM.ImageUrl class="img-fluid rounded mt-4" />
-            </div>
+
+
+
+
+
+
+
+
+
 
 
 
         </div>
+
+        <div class="col-4">
+            <img src=@Model.userVM.ImageUrl class="img-fluid rounded mt-4" />
+        </div>
+
+
+
+    </div>
 </form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
 
 

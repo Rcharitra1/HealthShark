@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
+
 namespace HealthShark.Models.Models.ViewModels
 {
     public class UserAssignmentVM
@@ -63,7 +64,21 @@ namespace HealthShark.Models.Models.ViewModels
         public bool? Paid { get; set; }
 
 
+        [NotMapped]
 
+
+        public UserVM userVM { get; set; }
+
+        
+
+        [NotMapped]
+        public List<Diet> diets { get; set; }
+
+        [NotMapped]
+        public List<WorkOutType> workOuts { get; set; }
+
+        [NotMapped]
+        public List<BodyType> bodyTypes { get; set; }
 
 
 

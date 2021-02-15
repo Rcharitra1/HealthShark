@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210214223149_checkingagain.cs" />
+    <Compile Remove="Migrations\20210214223149_checkingagain.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HealthShark.Models\HealthShark.Models.csproj" />
     <ProjectReference Include="..\HealthShark.Utility\HealthShark.Utility.csproj" />
   </ItemGroup>

@@ -136,6 +136,10 @@ namespace HealthShark.Areas.Admin.Controllers
             userAssignmentVM.Dietician = _db.ApplicationUsers.Find(userAssignmentVM.DieticianId);
             userAssignmentVM.Trainer = _db.ApplicationUsers.Find(userAssignmentVM.TrainerId);
             userAssignmentVM.UserPlan = _db.UserPlans.Find(userAssignmentVM.UserPlanId);
+            userAssignmentVM.Diet = userAssignmentVM.DietId == null ? new Diet() : _unitOfWork.Diet.Get(userAssignmentVM.DietId.GetValueOrDefault());
+            userAssignmentVM.WorkOut = userAssignmentVM.WorkoutId == null ? new WorkOutType() : _unitOfWork.WorkOut.Get(userAssignmentVM.WorkoutId.GetValueOrDefault());
+            userAssignmentVM.BodyType = userAssignmentVM.BodyTypeId == null ? new BodyType() : _unitOfWork.BodyType.Get(userAssignmentVM.BodyTypeId.GetValueOrDefault());
+
             return View(userAssignmentVM);
         }
 
