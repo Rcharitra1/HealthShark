@@ -1,7 +1,10 @@
 # Health Shark
-- This website is created as a portfolio
+- This website is created as a portfolio project
 - This website employes Asp.net Core
+- This project uses Entity Framework
+- This project uses SQL server at backend
 - This website had authentication
+## This website uses Stripe Payment Gateway for payments 
 - This websites has three types of accounts
 	- Customer
 		- Can access all customer areas, buys plans and view assignments by trainers and dieticians to thier plans.
