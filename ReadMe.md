@@ -14,4 +14,4 @@
 		- Can access all plans that have the dietician with designated account and update thier diet plans, can view workout type and body type assigned
 	- Admin
 		- Can view, create and edit plans, accounts and have access to all areas.
-- Link to the website ==>
+- Link to the website ==> https://healthshark20210216150907.azurewebsites.net/
