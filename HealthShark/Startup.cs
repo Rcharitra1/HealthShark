@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using HealthShark.DataAccess;
 using HealthShark.DataAccess.Repository.IRepository;
 using HealthShark.DataAccess.Repository;
+using HealthShark.Utility;
+using Stripe;
 
 namespace HealthShark
 {
@@ -36,6 +38,7 @@ namespace HealthShark
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                  .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddHttpContextAccessor();
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -59,6 +62,7 @@ namespace HealthShark
             app.UseStaticFiles();
 
             app.UseRouting();
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace HealthShark.Areas.Admin.Controllers
         private readonly ApplicationDbContext _db;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        private static string userplanId;
 
 
         public UserAssignmentController(IUnitOfWork unitOfWork, ApplicationDbContext db, IHttpContextAccessor httpContextAccessor )
@@ -49,9 +52,10 @@ namespace HealthShark.Areas.Admin.Controllers
             userAssignmentDummyClass.PlanId = id.GetValueOrDefault();
 
 
+
             if ((selectedPlan!=null) && (userAssignmentDummyClass.User !=null))
             {
-                
+                userplanId = id.ToString();
 
                 return View(userAssignmentDummyClass);
             }
@@ -64,17 +68,24 @@ namespace HealthShark.Areas.Admin.Controllers
 
         [AutoValidateAntiforgeryToken]
         [HttpPost]
-        public IActionResult Upsert(string userId, string planId)
+        public IActionResult Upsert(string stripeToken )
         {
-            
+            string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+     
+
+
+
+
             if (ModelState.IsValid)
             {
 
                 UserAssignmentVM userAssignmentVM = new UserAssignmentVM();
-                userAssignmentVM.Paid = true;
+
 
                 userAssignmentVM.UserId = userId;
-                userAssignmentVM.UserPlanId = int.Parse(planId);
+                userAssignmentVM.UserPlanId = int.Parse(userplanId);
+                userAssignmentVM.UserPlan = _db.UserPlans.Where(x => x.Id == userAssignmentVM.UserPlanId).FirstOrDefault();
 
                 List<ApplicationUser> trainers = _db.ApplicationUsers.Where(x => x.Role == SD.Role_Trainer).ToList();
                 int limit = trainers.Count();
@@ -91,10 +102,53 @@ namespace HealthShark.Areas.Admin.Controllers
                 var dietician = dieticians[randomDietician];
                 userAssignmentVM.DieticianId = dietician.Id;
 
-                _unitOfWork.UserAssignmentVM.Add(userAssignmentVM);
-                _unitOfWork.Save();
 
-                return RedirectToAction("Index", "UserVM", new { area = "Customer" });
+
+                if (stripeToken == null)
+                {
+
+                }
+                else
+                {
+                    var options = new ChargeCreateOptions
+                    {
+                        Amount = Convert.ToInt32(userAssignmentVM.UserPlan.Price * 100),
+                        Currency = "cad",
+                        Description = "OrderId: " + userAssignmentVM.Id,
+                        Source = stripeToken
+
+                    };
+
+                    var service = new ChargeService();
+                    Charge charge = service.Create(options);
+                    if (charge.BalanceTransactionId == null)
+                    {
+                        var userAssignmentDummyClass = new UserAssignmentUpsertVM();
+                        userAssignmentDummyClass.UserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                        var selectedPlan = _unitOfWork.UserPlan.Get(userAssignmentVM.UserPlanId.GetValueOrDefault());
+                        userAssignmentDummyClass.User = _db.ApplicationUsers.Find(userAssignmentDummyClass.UserId);
+
+                        userAssignmentDummyClass.Plan = selectedPlan;
+                        userAssignmentDummyClass.PlanId = selectedPlan.Id;
+
+                        return View(userAssignmentDummyClass);
+                    }
+                    else
+                    {
+                        if (charge.Status.ToLower() == "succeeded")
+                        {
+                            userAssignmentVM.Paid = true;
+                            _unitOfWork.UserAssignmentVM.Add(userAssignmentVM);
+                            _unitOfWork.Save();
+                            return RedirectToAction("Index", "UserVM", new { area = "Customer" });
+                        }
+                    }
+
+                }
+
+
+
 
             }
             return NotFound();
