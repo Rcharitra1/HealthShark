@@ -17,6 +17,7 @@ using HealthShark.DataAccess.Repository.IRepository;
 using HealthShark.DataAccess.Repository;
 using HealthShark.Utility;
 using Stripe;
+using HealthShark.DataAccess.Initializer;
 
 namespace HealthShark
 {
@@ -40,6 +41,7 @@ namespace HealthShark
             services.AddHttpContextAccessor();
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddControllersWithViews();
            
 
@@ -59,7 +61,7 @@ namespace HealthShark
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -80,7 +82,7 @@ namespace HealthShark
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            dbInitializer.Initialize();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
