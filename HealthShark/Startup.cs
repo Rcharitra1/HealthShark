@@ -41,6 +41,7 @@ namespace HealthShark
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
+           
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -48,6 +49,12 @@ namespace HealthShark
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
+
+            //services.AddAuthentication().AddGoogle(options =>
+            //{
+            //    options.ClientId = "336772673697-5gn6es2neue7c20ru8rm6buubdodl9ek.apps.googleusercontent.com";
+            //    options.ClientSecret = "zL1lf9_ZSBBZYKrTwQZwPEDA";
+            //});
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
